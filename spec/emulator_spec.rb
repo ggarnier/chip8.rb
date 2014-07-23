@@ -12,7 +12,7 @@ describe Emulator do
   end
 
 
-  describe "execucao" do
+  describe "#exec" do
     it "should set register" do
      @emu.exec([0x6177, 0x0000])
      @emu.registers.must_equal [0, 0x77] + [0]*14
@@ -33,7 +33,7 @@ describe Emulator do
      @emu.registers.must_equal [0, 0x23, 0x77] + [0]*13
     end
 
-    it "should skip all instructions" do
+    it "should skip 3 instructions" do
      @emu.exec([0x1003, 0x6277, 0x6123, 0x6401, 0x0000])
      @emu.registers.must_equal [0, 0, 0, 0, 1] + [0]*11
     end
