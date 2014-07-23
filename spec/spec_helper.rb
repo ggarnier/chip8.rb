@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require_relative '../lib/emulator'
+require_relative '../lib/operation'
 
 module MiniTest
   class Spec

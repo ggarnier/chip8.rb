@@ -1,9 +1,9 @@
-class Operation
+class Op
 
   attr_reader :name, :reg, :value, :address
 
   def initialize(instruction)
-    if instruction & 0xf000 == 0x6000 
+    if instruction & 0xf000 == 0x6000
       @name = 'set'
       @reg = (0x0f00 & instruction) >> 8
       @value = 0x00ff & instruction
@@ -35,7 +35,7 @@ class Emulator
   def exec(instructions)
     @pc = 0
     begin
-      operation = Operation.new instructions[pc]
+      operation = Op.new instructions[pc]
       if operation.name == 'set'
         registers[operation.reg] = operation.value
       elsif operation.name == 'skip'
