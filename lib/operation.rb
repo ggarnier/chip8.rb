@@ -1,7 +1,7 @@
 class Operation
   TYPES = []
 
-  attr_reader :name, :reg, :value, :address
+  attr_reader :name, :reg, :address, :instruction
 
   def self.inherited subclass
     TYPES << subclass
@@ -15,14 +15,22 @@ class Operation
     type = TYPES.find { |type| type.valid?(instruction) }
     type.new(instruction)
   end
+
+  def initialize instruction
+    @instruction = instruction
+  end
+
+  def value
+    @value = 0x00ff & instruction
+  end
 end
 
 
 class SetOperation < Operation
   def initialize instruction
+    super
     @name = 'set'
     @reg = (0x0f00 & instruction) >> 8
-    @value = 0x00ff & instruction
   end
 
   def self.valid? instruction
@@ -32,6 +40,7 @@ end
 
 class EndOperation < Operation
   def initialize instruction
+    super
     @name = 'end'
   end
 
@@ -42,9 +51,9 @@ end
 
 class SkipOperation < Operation
   def initialize instruction
+    super
     @name = 'skip'
     @reg = (0x0f00 & instruction) >> 8
-    @value = 0x00ff & instruction
   end
 
   def self.valid? instruction
@@ -54,6 +63,7 @@ end
 
 class JumpOperation < Operation
   def initialize instruction
+    super
     @name = 'jump'
     @address = 0x0fff & instruction
   end
@@ -65,9 +75,9 @@ end
 
 class IncrementOperation < Operation
   def initialize instruction
+    super
     @name = 'increment'
     @reg = (0x0f00 & instruction) >> 8
-    @value = 0x00ff & instruction
   end
 
   def self.valid? instruction
