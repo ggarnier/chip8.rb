@@ -9,7 +9,7 @@ class Emulator
 
   def exec(instructions)
     @pc = 0
-    begin
+    loop do
       operation = Operation.for(instructions[pc])
 
       case operation.name
@@ -23,9 +23,11 @@ class Emulator
         @pc = operation.address - 1
       when 'increment'
         registers[operation.register] += operation.value
+      when 'end'
+        break
       end
 
       @pc += 1
-    end while (operation.name != 'end')
+    end
   end
 end
