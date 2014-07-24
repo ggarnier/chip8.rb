@@ -11,17 +11,20 @@ class Emulator
     @pc = 0
     begin
       operation = Operation.for(instructions[pc])
-      if operation.name == 'set'
+
+      case operation.name
+      when 'set'
         registers[operation.register] = operation.value
-      elsif operation.name == 'skip'
+      when 'skip'
         if registers[operation.register] == operation.value
           @pc += 1
         end
-      elsif operation.name == 'jump'
+      when 'jump'
         @pc = operation.address - 1
-      elsif operation.name == 'increment'
+      when 'increment'
         registers[operation.register] += operation.value
       end
+
       @pc += 1
     end while (operation.name != 'end')
   end
