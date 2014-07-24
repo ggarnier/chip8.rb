@@ -21,7 +21,7 @@ class Operation
   end
 
   def value
-    @value = 0x00ff & instruction
+    0x00ff & instruction
   end
 end
 
