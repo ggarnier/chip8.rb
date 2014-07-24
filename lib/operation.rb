@@ -1,7 +1,7 @@
 class Operation
   TYPES = []
 
-  attr_reader :name, :reg, :address, :instruction
+  attr_reader :name, :instruction
 
   def self.inherited subclass
     TYPES << subclass
@@ -23,6 +23,10 @@ class Operation
   def value
     0x00ff & instruction
   end
+
+  def register
+    (0x0f00 & instruction) >> 8
+  end
 end
 
 
@@ -30,7 +34,6 @@ class SetOperation < Operation
   def initialize instruction
     super
     @name = 'set'
-    @reg = (0x0f00 & instruction) >> 8
   end
 
   def self.valid? instruction
@@ -53,7 +56,6 @@ class SkipOperation < Operation
   def initialize instruction
     super
     @name = 'skip'
-    @reg = (0x0f00 & instruction) >> 8
   end
 
   def self.valid? instruction
@@ -77,7 +79,6 @@ class IncrementOperation < Operation
   def initialize instruction
     super
     @name = 'increment'
-    @reg = (0x0f00 & instruction) >> 8
   end
 
   def self.valid? instruction
