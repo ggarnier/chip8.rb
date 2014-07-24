@@ -67,11 +67,14 @@ class JumpOperation < Operation
   def initialize instruction
     super
     @name = 'jump'
-    @address = 0x0fff & instruction
   end
 
   def self.valid? instruction
     instruction & 0xf000 == 0x1000
+  end
+
+  def address
+    0x0fff & instruction
   end
 end
 
